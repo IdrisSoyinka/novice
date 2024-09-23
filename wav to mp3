@@ -1,0 +1,54 @@
+import os
+from tkinter import Label
+from tkinterdnd2 import DND_FILES, TkinterDnD
+from pydub import AudioSegment
+from pathlib import Path
+
+def main():
+    root = TkinterDnD.Tk()
+    root.title("WAV to MP3 Converter")
+
+    label = Label(root, text="Drag and drop WAV files here", width=50, height=10, bg='lightgray')
+    label.pack(padx=10, pady=10)
+
+    # Register the label as a drop target
+    label.drop_target_register(DND_FILES)
+    label.dnd_bind('<<Drop>>', lambda event: handle_drop(event, root, label))
+
+    root.mainloop()
+
+def handle_drop(event, root, label):
+    # Get the list of files dropped
+    files = root.tk.splitlist(event.data)
+    wav_files = [f for f in files if f.lower().endswith('.wav')]
+
+    if not wav_files:
+        label.config(text="No WAV files were dropped. Please try again.")
+        return
+
+    label.config(text="Converting files, please wait...")
+    root.update_idletasks()
+
+    # Convert files
+    convert_files(wav_files, label)
+
+def convert_files(files, label):
+    # Get the Downloads/Converted folder path
+    download_folder = Path.home() / "Downloads" / "Converted"
+    download_folder.mkdir(parents=True, exist_ok=True)
+
+    for file in files:
+        try:
+            audio = AudioSegment.from_wav(file)
+            base = os.path.basename(file)
+            mp3_file = download_folder / (os.path.splitext(base)[0] + '.mp3')
+            audio.export(mp3_file, format="mp3")
+            print(f"Converted {file} to {mp3_file}")
+        except Exception as e:
+            print(f"Failed to convert {file}: {e}")
+
+    label.config(text=f"Conversion complete!\nFiles saved to {download_folder}")
+    label.update_idletasks()
+
+if __name__ == '__main__':
+    main()
