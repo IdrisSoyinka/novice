@@ -9,7 +9,7 @@ I'm a novice programmer working to improve my coding skills. As someone new to p
 ## Let's Connect
 
 Check out my personal website for more about my work and interests:  
-[Visit my website](https://is4486.wixsite.com/idris-soyinka)
-(www.linkedin.com/in/idrissoyinka)
+[Visit my website](https://is4486.wixsite.com/idris-soyinka) &
+[linkedin](www.linkedin.com/in/idrissoyinka)
 
 Feel free to connect or offer feedback—I’m always eager to learn from the community!
